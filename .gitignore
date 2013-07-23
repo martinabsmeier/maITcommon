@@ -1,6 +1,10 @@
-*.class
+# Directories
+bin/
+target/
 
-# Package Files #
+# Files
+*.class
 *.jar
 *.war
 *.ear
+*~ 
