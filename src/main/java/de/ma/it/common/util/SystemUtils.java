@@ -25,33 +25,31 @@ package de.ma.it.common.util;
 public class SystemUtils {
 
 	/* User's account name */
-	private static final String USER_NAME = System.getProperties().getProperty("user.name");
+	private static final String USER_NAME = System.getProperty(PropertyName.USER_NAME.getName());
 
 	/* User's current working directory */
-	private static final String USER_DIR = System.getProperties().getProperty("user.dir");
+	private static final String USER_DIR = System.getProperty(PropertyName.USER_DIR.getName());
 
 	/* User's home directory */
-	private static final String USER_HOME = System.getProperties().getProperty("user.home");
+	private static final String USER_HOME = System.getProperty(PropertyName.USER_HOME.getName());
 
 	/* Operating system name */
-	private static final String OS_NAME = System.getProperties().getProperty("os.name");
+	private static final String OS_NAME = System.getProperty(PropertyName.OS_NAME.getName());
 
 	/* Operating system architecture */
-	private static final String OS_ARCH = System.getProperties().getProperty("os.arch");
+	private static final String OS_ARCH = System.getProperty(PropertyName.OS_ARCH.getName());
 
 	/* Operating system version */
-	private static final String OS_VERSION = System.getProperties().getProperty("os.version");
+	private static final String OS_VERSION = System.getProperty(PropertyName.OS_VERSION.getName());
 
 	/* File separator ("/" on UNIX) */
-	private static final String FILE_SEPERATOR = System.getProperties().getProperty("file.separator");
+	private static final String FILE_SEPERATOR = System.getProperty(PropertyName.FILE_SEPARATOR.getName());
 
 	/* Path separator (":" on UNIX) */
-	private static final String PATH_SEPERATOR = System.getProperties().getProperty("path.separator");
+	private static final String PATH_SEPERATOR = System.getProperty(PropertyName.PATH_SEPARATOR.getName());
 
 	/* Line separator ("\n" on UNIX) */
-	private static final String LINE_SEPERATOR = System.getProperties().getProperty("line.separator");
-
-	/* --------------------------------------------------------------------- */
+	private static final String LINE_SEPERATOR = System.getProperty(PropertyName.LINE_SEPARATOR.getName());
 
 	/**
 	 * Get user's account name
@@ -178,9 +176,9 @@ public class SystemUtils {
 		return Runtime.getRuntime().totalMemory();
 	}
 
-	/* --------------------------------------------------------------------- */
-
-	/** Standard Constructor */
+	/** 
+	 * Standard Constructor 
+	 */
 	private SystemUtils() {
 		super();
 	}
