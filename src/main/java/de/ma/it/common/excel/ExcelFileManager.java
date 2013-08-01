@@ -182,7 +182,9 @@ public class ExcelFileManager {
 			break;
 		case HSSFCell.CELL_TYPE_STRING:
 			String stringCellValue = cell.getStringCellValue();
-			result = "1".equalsIgnoreCase(stringCellValue) || "true".equalsIgnoreCase(stringCellValue);
+			result = 	"1".equalsIgnoreCase(stringCellValue) || 
+						"true".equalsIgnoreCase(stringCellValue) ||
+						"yes".equalsIgnoreCase(stringCellValue);
 			break;
 		default:
 			result = null;

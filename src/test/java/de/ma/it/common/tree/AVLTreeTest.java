@@ -17,7 +17,11 @@
  */
 package de.ma.it.common.tree;
 
+import junit.framework.TestCase;
+
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -25,8 +29,20 @@ import org.junit.Test;
  * 
  * @author Martin Absmeier
  */
-public class AVLTreeTest {
+public class AVLTreeTest extends TestCase {
 
+	@Before
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+	
+	@After
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+	
 	@Test
 	public void testInsert() {
 		// this array in this order allows to pass in all branches of the insertion algorithm
@@ -45,7 +61,7 @@ public class AVLTreeTest {
 	@Test
 	public void testDelete() {
 		int[][][] arrays = {	{	{ 16, 13, 15, 14, 2, 0, 12, 9, 8, 5, 11, 18, 19, 17, 4,	7, 1, 3, 6, 10 },
-									{ 11, 10, 9, 12, 16, 15, 13, 18, 5, 0, 3, 2, 14, 6, 19,	17, 8, 4, 7, 1 } 
+									{ 11, 10, 9, 12, 16, 15, 13, 18, 5, 0, 3, 2, 14, 6, 19,	17, 8, 4, 7, 1 }
 								},
 								{	{ 16, 13, 15, 14, 2, 0, 12, 9, 8, 5, 11, 18, 19, 17, 4,	7, 1, 3, 6, 10 }, 
 									{ 0, 17, 14, 15, 16, 18, 6 } 
