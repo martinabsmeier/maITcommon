@@ -37,9 +37,9 @@ public class CSVFile implements Serializable {
 	private List<CSVFileRow> rows;
 
 	private String documentName;
-	
+
 	private CSVFileDelimiter delimiter;
-	
+
 	private StringBuilder sb;
 
 	/** Constructor */
@@ -58,23 +58,23 @@ public class CSVFile implements Serializable {
 	public void addRow(CSVFileRow aRow) {
 		this.rows.add(aRow);
 	}
-	
+
 	public String getDocumentName() {
 		return this.documentName;
 	}
-	
+
 	public int getNumberOfCells() {
 		return this.rows.get(0).getNumberOfCells();
 	}
-	
+
 	public int getNumberOfRows() {
 		return this.rows.size();
 	}
-	
+
 	public List<CSVFileRow> getRows() {
 		return this.rows;
 	}
-	
+
 	public String getCSVFile() {
 		sb.setLength(0);
 		sb.append("Filename: ").append(getDocumentName()).append(SystemUtils.getLineSeperator());
@@ -92,7 +92,7 @@ public class CSVFile implements Serializable {
 		}
 		return sb.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		sb.setLength(0);
@@ -109,4 +109,5 @@ public class CSVFile implements Serializable {
 		}
 		return sb.toString();
 	}
+
 }

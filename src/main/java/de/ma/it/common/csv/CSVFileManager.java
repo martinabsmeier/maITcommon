@@ -21,14 +21,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Scanner;
 import java.util.StringTokenizer;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * TODO Insert short description
@@ -38,18 +34,16 @@ import org.apache.commons.logging.LogFactory;
 public class CSVFileManager implements Serializable {
 
 	private static final long serialVersionUID = -2120653294656008151L;
-	
-	private static final Log LOG = LogFactory.getLog(CSVFileManager.class);
-	
+
 	private Charset encoding;
 
 	private CSVFile csvFile;
 
 	private CSVFileDelimiter delimiter;
-	
+
 	/**
 	 * Standard Constructor
-	 *
+	 * 
 	 * @param delimiter
 	 */
 	public CSVFileManager(CSVFileDelimiter delimiter) {
@@ -58,7 +52,7 @@ public class CSVFileManager implements Serializable {
 
 	/**
 	 * Standard Constructor
-	 *
+	 * 
 	 * @param encoding
 	 *            Encoding of csv file.
 	 */
@@ -70,27 +64,28 @@ public class CSVFileManager implements Serializable {
 
 	/**
 	 * readCSVFile
-	 *
+	 * 
 	 * @param fileName
 	 * @return
 	 * @throws IOException
 	 */
 	public CSVFile readCSVFile(String fileName, boolean withHeader) throws IOException {
-		Path path = Paths.get(fileName);		
+		Path path = Paths.get(fileName);
 		csvFile = new CSVFile(path.getFileName().toString(), delimiter);
-		
+
 		Integer rowNr = Integer.valueOf(1);
-		List<String> allLines = Files.readAllLines(path, encoding);
-		if (withHeader) {
-			CSVFileRow readHeader = readHeader(rowNr, allLines.get(0));
+		
+		Scanner scanner = new Scanner(path, encoding.name());
+		if (withHeader && scanner.hasNextLine()) {
+			CSVFileRow readHeader = readHeader(rowNr, scanner.nextLine());
 			csvFile.addHeaderRow(readHeader);
-			allLines.remove(0);
 		}
 		
 		rowNr++;
-		for (String aLine : allLines) {
+		
+		while (scanner.hasNextLine()) {
 			CSVFileRow aRow = new CSVFileRow(rowNr);
-			StringTokenizer tk = new StringTokenizer(aLine, delimiter.getValue());
+			StringTokenizer tk = new StringTokenizer(scanner.nextLine(), delimiter.getValue());
 			Integer cellNr = Integer.valueOf(1);
 			while (tk.hasMoreTokens()) {
 				CSVFileCell aCell = new CSVFileCell(cellNr, tk.nextToken());
@@ -100,11 +95,11 @@ public class CSVFileManager implements Serializable {
 			csvFile.addRow(aRow);
 			rowNr++;
 		}
-		LOG.info(allLines);
-		
+		scanner.close();
+
 		return csvFile;
 	}
-	
+
 	private CSVFileRow readHeader(Integer rowNr, String headerLine) {
 		CSVFileRow headerRow = new CSVFileRow(rowNr);
 		Integer cellNr = Integer.valueOf(1);
