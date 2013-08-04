@@ -1,13 +1,11 @@
-<project 
-	xmlns="http://maven.apache.org/POM/4.0.0" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.ma.it</groupId>
 	<artifactId>maITCommon</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 	<name>maITCommon</name>
 	<url>http://maven.apache.org</url>
@@ -18,11 +16,13 @@
 		<poi.version>3.9</poi.version>
 		<junit.version>4.8.1</junit.version>
 		<lang.version>2.6</lang.version>
+		<commons.logging.version>1.1.3</commons.logging.version>
+		<logging.version>1.2.17</logging.version>
 	</properties>
-	
+
 	<build>
 		<defaultGoal>compile</defaultGoal>
-	</build>            
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -50,6 +50,16 @@
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons.logging.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${logging.version}</version>
 		</dependency>
 	</dependencies>
 
