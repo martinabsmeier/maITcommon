@@ -27,7 +27,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-
 /**
  * TODO Insert short description
  * 

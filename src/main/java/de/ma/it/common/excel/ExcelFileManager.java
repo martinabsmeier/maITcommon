@@ -35,7 +35,7 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
  * @author Martin Absmeier
  */
 public class ExcelFileManager {
-	
+
 	/** Excel formula evaluator */
 	private FormulaEvaluator evaluator;
 

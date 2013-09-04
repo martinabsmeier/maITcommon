@@ -56,18 +56,18 @@ public class ExcelFileFilter implements FileFilter {
 			{
 				return true;
 			}
-		}
-
-		Matcher matcher = fileNameRegEx.matcher(fileName);
-		if (	matcher.matches() && 
-				(	fileName.endsWith(ExcelFileExtension.XLS.getValue()) || 
-					fileName.endsWith(ExcelFileExtension.XLSB.getValue()) || 
-					fileName.endsWith(ExcelFileExtension.XLSM.getValue()) || 
-					fileName.endsWith(ExcelFileExtension.XLSX.getValue()) || 
-					fileName.endsWith(ExcelFileExtension.XLTX.getValue()))
-				)
-		{
-			return true;
+		} else {
+			Matcher matcher = fileNameRegEx.matcher(fileName);
+			if (	matcher.matches() && 
+					(	fileName.endsWith(ExcelFileExtension.XLS.getValue()) || 
+						fileName.endsWith(ExcelFileExtension.XLSB.getValue()) || 
+						fileName.endsWith(ExcelFileExtension.XLSM.getValue()) || 
+						fileName.endsWith(ExcelFileExtension.XLSX.getValue()) || 
+						fileName.endsWith(ExcelFileExtension.XLTX.getValue()))
+					)
+			{
+				return true;
+			}
 		}
 
 		return false;

@@ -42,7 +42,7 @@ public class CSVFileManager implements Serializable {
 	private CSVFileDelimiter delimiter;
 
 	/**
-	 * Standard Constructor
+	 * Standard Constructor, uses UTF-8 for encoding.
 	 * 
 	 * @param delimiter
 	 */

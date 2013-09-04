@@ -24,7 +24,7 @@ import java.util.List;
 import de.ma.it.common.util.SystemUtils;
 
 /**
- * CSV document, as default delimiter is <code>CSVFileDelimiter.COMMA</code>
+ * CSV document, default delimiter is <code>CSVFileDelimiter.SEMIKOLON</code>
  * 
  * @author Martin Absmeier
  */

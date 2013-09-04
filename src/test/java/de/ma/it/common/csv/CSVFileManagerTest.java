@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import de.ma.it.common.util.SystemUtils;
 
@@ -36,7 +37,7 @@ public class CSVFileManagerTest extends TestCase {
 	private String fileName;
 	
 	private CSVFileManager cfManager;
-	
+
 	@Before
 	@Override
 	protected void setUp() throws Exception {
@@ -53,7 +54,8 @@ public class CSVFileManagerTest extends TestCase {
 		this.fileName = null;
 		this.cfManager = null;
 	}	
-	
+
+	@Test
 	public void testReadCSVFile() {
 		try {
 			cfManager = new CSVFileManager(CSVFileDelimiter.TABULATOR);
