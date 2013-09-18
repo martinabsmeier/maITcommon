@@ -1,1 +1,4 @@
-23.07.2013	Add junit test for all classes.
+23.07.2013  - Add junit test for all classes.
+18.09.2013  - PreconditionsMessages -> PreconditionConstants in new package de.ma.it.common.constants
+18.09.2013  - move JPA classes to new project maITCommonJPA
+18.09.2013  - remove de.ma.it.common.util.SystemUtils.java -> use org.apache.commons.lang.SystemUtils
