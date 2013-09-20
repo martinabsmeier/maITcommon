@@ -27,7 +27,7 @@ package de.ma.it.common.tree;
  * The nodes are not independant from each other but must obey specific
  * balancing constraints and the tree structure is rearranged as elements
  * are inserted or deleted from the tree. The creation, modification and
- * tree-related navigation methods have therefore restricted access. Only
+ * tree related navigation methods have therefore restricted access. Only
  * the order-related navigation, reading and delete methods are public.
  * </p>
  * 
