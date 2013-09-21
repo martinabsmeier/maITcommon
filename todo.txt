@@ -1,1 +1,22 @@
 23.07.2013	Add junit test for all classes.
+18.09.2013  - PreconditionsMessages -> PreconditionConstants in new package de.ma.it.common.constants
+18.09.2013  - move JPA classes to new project maITCommonJPA
+18.09.2013  - remove de.ma.it.common.util.SystemUtils.java -> use org.apache.commons.lang.SystemUtils
+18.09.2013  - Improve log4j logging (use log4j 2.0)
+              logPattern = %d{ISO8601} %-5p (%t) [%c{1}(%M:%L)] %m%n
+              output = 2013-06-24 10:03:26,892 DEBUG (http-8080-4) [TestClass(logSomething:136)] Hello World!
+              Some explanation:
+              %d{ISO8601} – displays the date and time in the ISO format (see earlier post about this norm).
+              %-5p – the log level (such as DEBUG, INFO, WARN, …), 
+                     formatted to occupy five columns (I like when things keep in line).
+              %t – the name of the thread logging this line.
+              %c{1} – the name of the class calling the logger 
+                      (the {1} argument is there to restrict the number of packages displayed; 
+                      {2} would display one package level before the class name, 
+                      {3} would display two package levels, … 
+                          and %c without the brackets would display the full package and class names).
+              %M – the method.
+              %L – the line number.
+              %m – the message to log.
+              %n – begin a new line.
+21.09.2013	- Sync Test
