@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  *
  * @author Martin Absmeier
  */
-public class RegexUtil implements PreconditionsMessages {
+public class RegexUtil {
 
 	/** Regex to check SWIFT / BIC codes. */
 	public static final Pattern SWIFT_BIC = Pattern.compile("^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$");

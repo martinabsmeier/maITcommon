@@ -30,7 +30,7 @@ import java.util.Locale;
  * 
  * @author Martin Absmeier
  */
-public class DateUtil implements PreconditionsMessages {
+public class DateUtil {
 
 	/** GERMAN_STANDARD_NO_TIME - dd.MM.yyyy */
 	public static DateFormat GERMAN_STANDARD_NO_TIME = new SimpleDateFormat("dd.MM.yyyy");

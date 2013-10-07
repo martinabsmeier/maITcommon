@@ -30,7 +30,7 @@ import java.util.Map;
  *
  * @author Martin Absmeier
  */
-public class FileUtils implements PreconditionsMessages {
+public class FileUtils {
 
 	/**
 	 * serializeFiles

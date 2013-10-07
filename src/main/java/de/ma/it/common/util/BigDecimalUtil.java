@@ -29,7 +29,7 @@ import java.util.Locale;
  *
  * @author Martin Absmeier
  */
-public class BigDecimalUtil implements PreconditionsMessages {
+public class BigDecimalUtil {
 	
 	/**
 	 * 

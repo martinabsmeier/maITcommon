@@ -22,7 +22,7 @@ package de.ma.it.common.util;
  * 
  * @author Martin Absmeier
  */
-public class StringUtil implements PreconditionsMessages {
+public class StringUtil {
 
 	/**
 	 * Checks if <code>input</code> is a palindrome.

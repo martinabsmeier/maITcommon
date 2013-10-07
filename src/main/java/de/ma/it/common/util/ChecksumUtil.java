@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
  *
  * @author Martin Absmeier
  */
-public class ChecksumUtil implements PreconditionsMessages {
+public class ChecksumUtil {
 
 	/**
 	 * The check digit (tenth digit) of ISBN number is calculated as follows:<br>
