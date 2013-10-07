@@ -32,25 +32,21 @@ import junit.framework.TestCase;
  *
  * @author Martin Absmeier
  */
-public class CSVFileManagerTest extends TestCase {
+public class CSVFileManagerTest {
 	
 	private String fileName;
 	
 	private CSVFileManager cfManager;
 
 	@Before
-	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
 		String filePath =	SystemUtils.getUserDir() + SystemUtils.getFileSeperator() + "src" + SystemUtils.getFileSeperator() + 
 							"test" + SystemUtils.getFileSeperator() + "resources" + SystemUtils.getFileSeperator();
 		this.fileName = filePath + "postcodes-germany.csv";
 	}
 
 	@After
-	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
 		this.fileName = null;
 		this.cfManager = null;
 	}	

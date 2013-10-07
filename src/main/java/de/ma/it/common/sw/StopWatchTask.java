@@ -35,8 +35,6 @@ public class StopWatchTask {
 	
 	private long stopTime;
 	
-	private StringBuilder sb;
-
 	/**
 	 * Standard Constructor
 	 * 
@@ -52,7 +50,6 @@ public class StopWatchTask {
 		this.taskName = taskName;
 		this.startTime = startTime;
 		this.stopTime = stopTime;
-		this.sb = new StringBuilder();
 	}
 
 	/**
@@ -100,12 +97,4 @@ public class StopWatchTask {
 		return Double.valueOf(stopTime - startTime) / 1000.0D;
 	}
 
-	@Override
-	public String toString() {
-		sb.setLength(0);
-		
-		sb.append("task");
-		
-		return sb.toString();
-	}
 }

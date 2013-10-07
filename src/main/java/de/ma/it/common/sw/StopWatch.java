@@ -17,6 +17,8 @@
  */
 package de.ma.it.common.sw;
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.ma.it.common.util.SystemUtils;
@@ -31,9 +33,6 @@ import de.ma.it.common.util.SystemUtils;
  * @author Martin Absmeier
  */
 public class StopWatch {
-
-	/** Name of stop watch */
-	private String stopWatchName;
 	
 	/** Name of the currently running task. */
 	private String currentTaskName;
@@ -55,23 +54,11 @@ public class StopWatch {
 	
 	/**
 	 * Standard Constructor
-	 * 
-	 * @param stopWatchName
-	 *            Name of the stop watch
 	 */
-	public StopWatch(String stopWatchName) {
+	public StopWatch() {
 		super();
-		this.stopWatchName = stopWatchName;
+		this.taskList = new ArrayList<StopWatchTask>();
 		this.sb = new StringBuilder();
-	}
-
-	/**
-	 * Returns the name of the stop watch.
-	 *
-	 * @return name of the stop watch.
-	 */
-	public String getStopWatchName() {
-		return stopWatchName;
 	}
 
 	/**
@@ -135,22 +122,47 @@ public class StopWatch {
 		this.currentStartTime = 0;
 	}
 
-	/**
-	 * 
-	 * @see Object#toString()
-	 */
-	@Override
-	public String toString() {
+	public String prettyPrint() {
+		NumberFormat nf = NumberFormat.getNumberInstance();
+		nf.setMinimumIntegerDigits(7);
+		nf.setGroupingUsed(false);
+		NumberFormat pf = NumberFormat.getPercentInstance();
+		pf.setMinimumIntegerDigits(3);
+		pf.setGroupingUsed(false);
+		
 		sb.setLength(0);
-
-		sb.append("StopWatch name=").append(getStopWatchName()).append(", ");
-		sb.append("runningTimeMs=").append(getTotalTimeInMillis()).append(NL);
+		sb.append("StopWatch totalRunningTime = ").append(getTotalTimeInMillis()).append(" ms").append(NL);
+		sb.append(TAB).append("     ms     %  TaskName").append(NL);
+		sb.append(TAB).append("---------------").append(missingSeparatorChars()).append(NL);
 		
 		for (StopWatchTask aTask : taskList) {
-			sb.append(TAB).append(aTask.toString()).append(NL);
+			sb.append(TAB);
+			sb.append(nf.format(aTask.getTimeInMillis())).append("  ");
+			sb.append(pf.format(aTask.getTimeInSeconds() / getTotalTimeInSeconds())).append("  ");
+			sb.append(aTask.getTaskName()).append(NL);
 		}
 
 		return sb.toString();
 	}
 
+	private int getLengthOfLongestTaskName() {
+		int lengthOfLongestTaskName = 0;
+		for (StopWatchTask aTask : taskList) {
+			int taskNameLength = aTask.getTaskName().length();
+			if (taskNameLength > lengthOfLongestTaskName) {
+				lengthOfLongestTaskName = taskNameLength; 
+			}
+		}
+		return lengthOfLongestTaskName;
+	}
+	
+	private String missingSeparatorChars() {
+		StringBuilder sb = new StringBuilder();
+		int taskNameLength = getLengthOfLongestTaskName();
+		for (int count = 0; count < taskNameLength; count++) {
+			sb.append("-");
+		}
+		return sb.toString();
+	}
+	
 }

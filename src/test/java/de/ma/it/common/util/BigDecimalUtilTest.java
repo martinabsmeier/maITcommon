@@ -1,5 +1,5 @@
 /*
- * TODO Insert short description
+ * Test the BigDecimalUtil class.
  * Copyright (C) 2012 Martin Absmeier, IT Consulting Services
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * TODO Insert description !
+ * Test the BigDecimalUtil class.
  *
  * @author Martin Absmeier
  */

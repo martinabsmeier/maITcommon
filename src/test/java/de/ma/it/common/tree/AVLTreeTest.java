@@ -1,5 +1,5 @@
 /*
- * TODO Insert short description
+ * Test of AVLTree class
  * Copyright (C) 2012 Martin Absmeier, IT Consulting Services
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -17,8 +17,6 @@
  */
 package de.ma.it.common.tree;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,18 +27,16 @@ import org.junit.Test;
  * 
  * @author Martin Absmeier
  */
-public class AVLTreeTest extends TestCase {
+public class AVLTreeTest {
 
 	@Before
-	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
+		// nothing to do
 	}
 	
 	@After
-	@Override
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		// nothing to do
 	}
 	
 	@Test
