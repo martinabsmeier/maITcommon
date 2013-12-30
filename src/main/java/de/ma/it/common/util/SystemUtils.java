@@ -32,15 +32,13 @@ public class SystemUtils {
 	public enum PropertyName {
 
 		/**
-		 * Character that separates components of a file path. This is "/" on UNIX
-		 * and "\" on Windows.
+		 * Character that separates components of a file path. This is "/" on UNIX and "\" on Windows.
 		 */
 		FILE_SEPARATOR("file.separator"),
 
 		/**
-		 * Path used to find directories and JAR archives containing class files.
-		 * Elements of the class path are separated by a platform-specific character
-		 * specified in the path.separator property.
+		 * Path used to find directories and JAR archives containing class files. Elements of the class path are separated by a
+		 * platform-specific character specified in the path.separator property.
 		 */
 		JAVA_CLASS_PATH("java.class.path"),
 
@@ -115,7 +113,7 @@ public class SystemUtils {
 		}
 
 	}
-	
+
 	/* User's account name */
 	private static final String USER_NAME = System.getProperty(PropertyName.USER_NAME.getName());
 
@@ -169,107 +167,104 @@ public class SystemUtils {
 	public static String getUserHome() {
 		return USER_HOME;
 	}
-	
+
 	/**
-	 * Get the operating system name
-	 *
-	 * @return operating system name
+	 * Get the operating system name.
+	 * 
+	 * @return The operating system name.
 	 */
 	public static String getOsName() {
 		return OS_NAME;
 	}
-	
+
 	/**
-	 * Get the operating system architecture
-	 *
-	 * @return operating system architecture
+	 * Get the operating system architecture.
+	 * 
+	 * @return The operating system architecture.
 	 */
 	public static String getOsArchitecture() {
 		return OS_ARCH;
 	}
-	
+
 	/**
-	 * Get the operating system version
-	 *
-	 * @return operating system version
+	 * Get the operating system version.
+	 * 
+	 * @return The operating system version.
 	 */
 	public static String getOsVersion() {
 		return OS_VERSION;
 	}
-	
+
 	/**
 	 * Get the File separator ("/" on UNIX)
-	 *
+	 * 
 	 * @return file separator
 	 */
 	public static String getFileSeperator() {
 		return FILE_SEPERATOR;
 	}
-	
+
 	/**
-	 * Get the File separator ("/" on UNIX)
-	 *
-	 * @return file separator ("/" on UNIX)
+	 * Get the File separator ("/" on UNIX).
+	 * 
+	 * @return The file separator ("/" on UNIX).
 	 */
 	public static String getPathSeperator() {
 		return PATH_SEPERATOR;
 	}
-	
+
 	/**
-	 * Get the line separator ("\n" on UNIX)
-	 *
-	 * @return line separator ("\n" on UNIX)
+	 * Get the line separator ("\n" on UNIX).
+	 * 
+	 * @return The line separator ("\n" on UNIX).
 	 */
 	public static String getLineSeperator() {
 		return LINE_SEPERATOR;
 	}
 
 	/**
-	 * Returns the number of processors available to the Java virtual machine.
-	 * This value may change during a particular invocation of the virtual machine. Applications that 
-	 * are sensitive to the number of available processors should therefore occasionally poll this 
+	 * Returns the number of processors available to the Java virtual machine. This value may change during a particular invocation of the
+	 * virtual machine. Applications that are sensitive to the number of available processors should therefore occasionally poll this
 	 * property and adjust their resource usage appropriately.
-	 *
-	 * @return number of available processors
+	 * 
+	 * @return The number of available processors
 	 */
 	public static int getAvailableProcessors() {
 		return Runtime.getRuntime().availableProcessors();
 	}
 
 	/**
-	 * Returns the amount of free memory in the Java Virtual Machine. Calling
-	 * the garbage collector method may result in increasing the value returned by freeMemory.
+	 * Returns the amount of free memory in the Java Virtual Machine. Calling the garbage collector method may result in increasing the
+	 * value returned by freeMemory.
 	 * 
-	 * @return free memory
+	 * @return The amount free memory
 	 */
 	public static long getFreeMemory() {
 		return Runtime.getRuntime().freeMemory();
 	}
 
 	/**
-	 * Returns the maximum amount of memory that the Java virtual machine will
-	 * attempt to use. If there is no inherent limit then the value
-	 * java.lang.Long.MAX_VALUE will be returned. *
+	 * Returns the maximum amount of memory that the Java virtual machine will attempt to use. If there is no inherent limit then the value
+	 * java.lang.Long.MAX_VALUE will be returned.
 	 * 
-	 * @return max memory
+	 * @return The maximum amount of memory.
 	 */
 	public static long getMaxMemory() {
 		return Runtime.getRuntime().maxMemory();
 	}
 
 	/**
-	 * Returns the total amount of memory in the Java virtual machine. The value
-	 * returned by this method may vary over time, depending on the host
-	 * environment.
+	 * Returns the total amount of memory in the Java virtual machine. The value returned by this method may vary over time, depending on
+	 * the host environment.
 	 * 
-	 * @return total memory
+	 * @return The total amount of memory.
 	 */
 	public static long getTotalMemory() {
 		return Runtime.getRuntime().totalMemory();
 	}
 
-	/** 
-	 * Standard Constructor 
+	/**
+	 * Standard Constructor
 	 */
 	private SystemUtils() {
 		super();

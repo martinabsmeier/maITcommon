@@ -1,5 +1,5 @@
 /*
- * Row of a csv document
+ * A row of a csv document.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import java.util.List;
 import de.ma.it.common.util.SystemUtils;
 
 /**
- * Row of a csv document
+ * A row of a csv document.
  * 
  * @author Martin Absmeier
  */

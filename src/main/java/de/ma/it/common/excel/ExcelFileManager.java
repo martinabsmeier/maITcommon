@@ -1,5 +1,5 @@
 /*
- * TODO Insert short description
+ * Simplifying the access to excel documents.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,480 +19,93 @@ package de.ma.it.common.excel;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 /**
- * Simplifying the access to excel files.
+ * Simplifying the access to excel documents.
  * 
  * @author Martin Absmeier
  */
 public class ExcelFileManager {
 
-	/** Excel formula evaluator */
-	private FormulaEvaluator evaluator;
+	/** Creates a new <code>ExcelFileManager</code> instance. */
+	public ExcelFileManager() {
+		super();
+	}
 
-	/** Excel workbook */
-	private HSSFWorkbook workBook;
-
-	/** 
-	 * Creates a new instance of the class<br>
+	/**
+	 * Read the excel document from given <code>excelFile</code> file.
 	 * 
 	 * @param excelFile
-	 *            The excel file handle
+	 *            The excel file to be read.
+	 * @return The excel document.
+	 * @throws IOException
+	 *             If excel document could not be read.
 	 */
-	public ExcelFileManager(File excelFile) throws IOException {
-		super();
-		InputStream excelInputStream = new FileInputStream(excelFile);
-		init(excelInputStream);
-	}
-
-	/** 
-	 * Creates a new instance of the class<br>
-	 * 
-	 * @param exexcelInputStream
-	 *            The excel input stream
-	 */
-	public ExcelFileManager(InputStream excelInputStream) throws IOException {
-		super();
-		init(excelInputStream);
+	public ExcelFile readDocument(File excelFile) throws IOException {
+		return readDocument(new FileInputStream(excelFile));
 	}
 
 	/**
+	 * Read the excel document from given <code>excelInputStream</code> stream.
 	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
+	 * @param excelInputStream
+	 *            The excel input stream.
+	 * @return The excel document.
+	 * @throws IOException
+	 *             If excel document could not be read.
 	 */
-	public HSSFCell getCell(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = null;
-		try {
-			cell = row.getCell(cellIdx);
-		} catch (NullPointerException ex) {
-			// Occurs if cell isn't present, is deliberately swallowed -> method returns null
-		}
-
-		if (cell.getCellType() == HSSFCell.CELL_TYPE_ERROR) {
-			throw new IllegalArgumentException("Value not valid because cell has an error!");
-		}
-		
-		return cell;
+	public ExcelFile readDocument(InputStream excelInputStream) throws IOException {
+		HSSFWorkbook workBook = new HSSFWorkbook(excelInputStream);
+		return new ExcelFile(workBook);
 	}
 
 	/**
+	 * Read the excel document from given <code>fileName</code> file name.
 	 * 
-	 * @param sheet
-	 * @param rowIdx
-	 * @return
+	 * @param fileName
+	 * @return The excel document.
+	 * @throws IOException
+	 *             If excel document could not be read.
 	 */
-	public HSSFRow getRow(HSSFSheet sheet, int rowIdx) {
-		HSSFRow row = null;
-		try {
-			row = sheet.getRow(rowIdx);
-		} catch (NullPointerException ex) {
-			// Occurs if row isn't present, is deliberately swallowed -> method returns null
-		}
-
-		return row;
+	public ExcelFile readDocument(String fileName) throws IOException {
+		return readDocument(new File(fileName));
 	}
 
 	/**
+	 * Writes the excel document <code>excelFile</code> to disk.
 	 * 
-	 * @param sheetIdx
-	 * @return
+	 * @param excelFile
+	 *            The excel document to be written.
+	 * @param filePath
+	 *            The document is written into it.
+	 * @throws IOException
+	 *             if the excel document could not be written.
 	 */
-	public HSSFSheet getSheet(int sheetIdx) {
-		HSSFSheet sheet = null;
-		try {
-			sheet = this.workBook.getSheetAt(sheetIdx);
-		} catch (NullPointerException ex) {
-			// Occurs if sheet isn't present, is deliberately swallowed -> method returns null
-		}
-
-		return sheet;
+	public void writeDocument(ExcelFile excelFile, File filePath) throws IOException {
+		FileOutputStream fos = new FileOutputStream(filePath);
+		HSSFWorkbook workBook = excelFile.getWorkBook();
+		workBook.write(fos);
+		fos.flush();
+		fos.close();
 	}
 
 	/**
+	 * Writes the excel document <code>fileName</code> to disk.
 	 * 
-	 * @return
+	 * @param excelFile
+	 *            The excel document to be written.
+	 * @param fileName
+	 *            The name of the excel document.
+	 * @throws IOException
+	 *             if the excel document could not be written.
 	 */
-	public HSSFWorkbook getWorkBoob() {
-		return this.workBook;
-	}
-
-	private void init(InputStream excelInputStream) throws IOException {
-		this.workBook = new HSSFWorkbook(excelInputStream);
-		this.evaluator = this.workBook.getCreationHelper().createFormulaEvaluator();
-	}
-
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public Boolean readCellAsBoolean(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsBoolean(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Boolean readCellAsBoolean(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		Boolean result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_BOOLEAN:
-			result = cell.getBooleanCellValue();
-			break;
-		case HSSFCell.CELL_TYPE_NUMERIC:
-			result = cell.getNumericCellValue() == 1;
-			break;
-		case HSSFCell.CELL_TYPE_STRING:
-			String stringCellValue = cell.getStringCellValue();
-			result = 	"1".equalsIgnoreCase(stringCellValue) || 
-						"true".equalsIgnoreCase(stringCellValue) ||
-						"yes".equalsIgnoreCase(stringCellValue);
-			break;
-		default:
-			result = null;
-			break;
-		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public Double readCellAsDouble(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsDouble(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Double readCellAsDouble(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		Double result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_NUMERIC:
-			double numericCellValue = cell.getNumericCellValue();
-			result = Double.valueOf(numericCellValue);
-			break;
-		case HSSFCell.CELL_TYPE_STRING:
-			String stringCellValue = cell.getStringCellValue();
-			if (!StringUtils.isNumeric(stringCellValue)) {
-				throw new IllegalArgumentException("Value " + stringCellValue + " is not numeric!");
-			}
-			result = Double.valueOf(stringCellValue);
-			break;
-		default:
-			result = Double.MIN_VALUE;
-			break;
-		}
-
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public Float readCellAsFloat(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsFloat(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Float readCellAsFloat(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		Float result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_NUMERIC:
-			double numericCellValue = cell.getNumericCellValue();
-			if (numericCellValue > Float.MAX_VALUE) {
-				throw new IllegalArgumentException("Value " + numericCellValue + " to big for integer!");
-			}
-			result = Double.valueOf(numericCellValue).floatValue();
-			break;
-		case HSSFCell.CELL_TYPE_STRING:
-			String stringCellValue = cell.getStringCellValue();
-			if (!StringUtils.isNumeric(stringCellValue)) {
-				throw new IllegalArgumentException("Value " + stringCellValue + " is not numeric!");
-			}
-			result = Double.valueOf(stringCellValue).floatValue();
-			break;
-		default:
-			result = Float.MIN_VALUE;
-			break;
-		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public Integer readCellAsInt(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsInt(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Integer readCellAsInt(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		Integer result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_NUMERIC:
-			double numericCellValue = cell.getNumericCellValue();
-			if (numericCellValue > Integer.MAX_VALUE) {
-				throw new IllegalArgumentException("Value " + numericCellValue + " to big for integer!");
-			}
-			result = Double.valueOf(numericCellValue).intValue();
-			break;
-		case HSSFCell.CELL_TYPE_STRING:
-			String stringCellValue = cell.getStringCellValue();
-			if (!StringUtils.isNumeric(stringCellValue)) {
-				throw new IllegalArgumentException("Value " + stringCellValue + " is not numeric!");
-			}
-			result = Double.valueOf(stringCellValue).intValue();
-			break;
-		default:
-			result = Integer.MIN_VALUE;
-			break;
-		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public Long readCellAsLong(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsLong(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Long readCellAsLong(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		Long result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_NUMERIC:
-			double numericCellValue = cell.getNumericCellValue();
-			if (numericCellValue > Long.MAX_VALUE) {
-				throw new IllegalArgumentException("Value " + numericCellValue + " to big for integer!");
-			}
-			result = Double.valueOf(numericCellValue).longValue();
-			break;
-		case HSSFCell.CELL_TYPE_STRING:
-			String stringCellValue = cell.getStringCellValue();
-			if (!StringUtils.isNumeric(stringCellValue)) {
-				throw new IllegalArgumentException("Value " + stringCellValue + " is not numeric!");
-			}
-			result = Double.valueOf(stringCellValue).longValue();
-			break;
-		default:
-			result = Long.MIN_VALUE;
-			break;
-		}
-
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param sheetIdx
-	 * @param rowIdx
-	 * @param cellIdx
-	 * @return
-	 */
-	public String readCellAsString(int sheetIdx, int rowIdx, int cellIdx) {
-		HSSFSheet sheet = getSheet(sheetIdx);
-		if (sheet == null) {
-			return null;
-		}
-		HSSFRow row = getRow(sheet, rowIdx);
-		if (row == null) {
-			return null;
-		}
-
-		return readCellAsString(row, cellIdx);
-	}
-
-	/**
-	 * 
-	 * @param row
-	 * @param cellIdx
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public String readCellAsString(HSSFRow row, int cellIdx) throws IllegalArgumentException {
-		HSSFCell cell = getCell(row, cellIdx);
-		if (cell == null) {
-			return null;
-		}
-
-		int cellType = cell.getCellType();
-		// First evaluate formula if present
-		if (cellType == HSSFCell.CELL_TYPE_FORMULA) {
-			cellType = evaluator.evaluateFormulaCell(cell);
-		}
-
-		String result;
-		switch (cellType) {
-		case HSSFCell.CELL_TYPE_STRING:
-			result = cell.getStringCellValue();
-			break;
-		default:
-			result = "";
-			break;
-		}
-
-		return result;
+	public void writeDocument(ExcelFile excelFile, String fileName) throws IOException {
+		writeDocument(excelFile, new File(fileName));
 	}
 
 }

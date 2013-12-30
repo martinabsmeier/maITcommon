@@ -1,5 +1,5 @@
 /*
- * TODO Insert short description
+ * Simplifying the access to csv documents.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,15 @@ package de.ma.it.common.csv;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
+import de.ma.it.common.util.CharsetUtils;
+
 /**
- * TODO Insert short description
+ * Simplifying the access to csv documents.
  * 
  * @author Martin Absmeier
  */
@@ -35,54 +36,49 @@ public class CSVFileManager implements Serializable {
 
 	private static final long serialVersionUID = -2120653294656008151L;
 
-	private Charset encoding;
-
+	/** The csv file to be managed */
 	private CSVFile csvFile;
 
-	private CSVFileDelimiter delimiter;
-
-	/**
-	 * Standard Constructor, uses UTF-8 for encoding.
-	 * 
-	 * @param delimiter
-	 */
-	public CSVFileManager(CSVFileDelimiter delimiter) {
-		this(delimiter, StandardCharsets.UTF_8);
-	}
-
-	/**
-	 * Standard Constructor
-	 * 
-	 * @param encoding
-	 *            Encoding of csv file.
-	 */
-	public CSVFileManager(CSVFileDelimiter delimiter, Charset encoding) {
+	/** Creates a new <code>CSVFileManager</code> instance. */
+	public CSVFileManager() {
 		super();
-		this.delimiter = delimiter;
-		this.encoding = encoding;
 	}
 
 	/**
-	 * readCSVFile
+	 * Read a csv file from file system with given <code>fileName</code> and <code>delimiter</code>.
 	 * 
 	 * @param fileName
-	 * @return
+	 *            The name of the csv file with path.
+	 * @param delimiter
+	 *            The delimiter of the csv file, if no delimiter is specified semikolon <code>;</code> is uesd.
+	 * @param withHeader
+	 *            true if csv file has a header, false otherwise
+	 * @param encoding
+	 *            The encoding of the csv file, if no encoding is specified <code>UTF-8</code> is used.
+	 * @return The read csv file.
 	 * @throws IOException
+	 *             if the csv file could not be read.
 	 */
-	public CSVFile readCSVFile(String fileName, boolean withHeader) throws IOException {
+	public CSVFile readDocument(String fileName, CSVFileDelimiter delimiter, boolean withHeader, Charset encoding) throws IOException {
 		Path path = Paths.get(fileName);
 		csvFile = new CSVFile(path.getFileName().toString(), delimiter);
 
 		Integer rowNr = Integer.valueOf(1);
+		if (delimiter == null) {
+			delimiter = CSVFileDelimiter.SEMIKOLON;
+		}
+		if (encoding == null) {
+			encoding = CharsetUtils.getUTF_8();
+		}
 		
 		Scanner scanner = new Scanner(path, encoding.name());
 		if (withHeader && scanner.hasNextLine()) {
-			CSVFileRow readHeader = readHeader(rowNr, scanner.nextLine());
+			CSVFileRow readHeader = readHeader(rowNr, scanner.nextLine(), delimiter);
 			csvFile.addHeaderRow(readHeader);
 		}
-		
+
 		rowNr++;
-		
+
 		while (scanner.hasNextLine()) {
 			CSVFileRow aRow = new CSVFileRow(rowNr);
 			StringTokenizer tk = new StringTokenizer(scanner.nextLine(), delimiter.getValue());
@@ -100,7 +96,7 @@ public class CSVFileManager implements Serializable {
 		return csvFile;
 	}
 
-	private CSVFileRow readHeader(Integer rowNr, String headerLine) {
+	private CSVFileRow readHeader(Integer rowNr, String headerLine, CSVFileDelimiter delimiter) {
 		CSVFileRow headerRow = new CSVFileRow(rowNr);
 		Integer cellNr = Integer.valueOf(1);
 		StringTokenizer tk = new StringTokenizer(headerLine, delimiter.getValue());
@@ -110,6 +106,14 @@ public class CSVFileManager implements Serializable {
 			cellNr++;
 		}
 		return headerRow;
+	}
+	
+	/**
+	 * 
+	 * @param csvFile
+	 */
+	public void writeDocument(CSVFile csvFile) {
+		
 	}
 
 }

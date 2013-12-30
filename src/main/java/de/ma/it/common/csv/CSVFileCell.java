@@ -1,5 +1,5 @@
 /*
- * CSV file data field.
+ * A cell of a csv document.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@ package de.ma.it.common.csv;
 import java.io.Serializable;
 
 /**
- * CSV file data field.
+ * A cell of a csv document.
  * 
  * @author Martin Absmeier
  */
@@ -28,17 +28,21 @@ public class CSVFileCell implements Serializable {
 
 	private static final long serialVersionUID = -6156910564837140075L;
 
+	/** The number of the cell. */
 	private Integer cellNumber;
 
+	/** The value of the cell. */
 	private String cellValue;
 
 	private StringBuilder sb;
 
 	/**
-	 * Standard Constructor
-	 *
+	 * Creates a new csv cell with given <code>cellNumber</code> and <code>cellValue</code>
+	 * 
+	 * @param cellNumber
+	 *            The number of the csv cell.
 	 * @param cellValue
-	 * @param delimiter
+	 *            The value of the csv cell.
 	 */
 	public CSVFileCell(Integer cellNumber, String cellValue) {
 		super();
@@ -46,7 +50,7 @@ public class CSVFileCell implements Serializable {
 		this.cellValue = cellValue;
 		this.sb = new StringBuilder();
 	}
-	
+
 	public String getCell(CSVFileDelimiter delimiter) {
 		sb.setLength(0);
 		String cellValue = getCellValue();
@@ -67,13 +71,13 @@ public class CSVFileCell implements Serializable {
 	}
 
 	/**
-	 * Use the standard delimiter <code>CSVFileDelimiter.SEMIKOLON</code>
+	 * Return the csv cell as string.
 	 */
 	@Override
 	public String toString() {
 		sb.setLength(0);
-		sb.append(getCellValue()).append(CSVFileDelimiter.SEMIKOLON.getValue());
+		sb.append(getCellValue());
 		return sb.toString();
 	}
-	
+
 }

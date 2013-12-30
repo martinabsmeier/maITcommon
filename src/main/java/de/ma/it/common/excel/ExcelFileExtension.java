@@ -26,23 +26,27 @@ public enum ExcelFileExtension {
 
 	/** Excel spreadsheet until 2007 */
 	XLS(".xls"),
+
 	/** Excel spreadsheet from 2007 and higher */
 	XLSX(".xlsx"),
+
 	/** Excel spreadsheet with macros */
 	XLSM(".xlsm"),
+
 	/** Excel spreadsheet binary */
 	XLSB(".xlsb"),
+
 	/** Excel spreadsheet template */
 	XLTX(".xltx");
 
-	private String value;
+	private String fileExtension;
 
-	private ExcelFileExtension(String value) {
-		this.value = value;
+	private ExcelFileExtension(String fileExtension) {
+		this.fileExtension = fileExtension;
 	}
 
-	public String getValue() {
-		return this.value;
+	public String getExtension() {
+		return this.fileExtension;
 	}
 
 }

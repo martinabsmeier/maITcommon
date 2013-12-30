@@ -1,5 +1,5 @@
 /*
- * CSV document, as default delimiter is <code>CSVFileDelimiter.COMMA</code>
+ * A csv document.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@ import java.util.List;
 import de.ma.it.common.util.SystemUtils;
 
 /**
- * CSV document, default delimiter is <code>CSVFileDelimiter.SEMIKOLON</code>
+ * A csv document, default delimiter is <code>CSVFileDelimiter.SEMIKOLON</code>
  * 
  * @author Martin Absmeier
  */
@@ -32,52 +32,103 @@ public class CSVFile implements Serializable {
 
 	private static final long serialVersionUID = -801920797804257666L;
 
+	/** The header row of csv document */
 	private CSVFileRow headerRow;
-	
+
+	/** The rows of a csv document */
 	private List<CSVFileRow> rows;
 
+	/** The name of a csv document */
 	private String documentName;
 
+	/** The delimiter of a csv document */
 	private CSVFileDelimiter delimiter;
 
 	private StringBuilder sb;
 
-	/** Constructor */
+	/**
+	 * Creates a new csv file with given <code>documentName</code> and <code>delimiter</code>.
+	 * 
+	 * @param documentName
+	 *            The name of the csv document.
+	 * @param delimiter
+	 *            The delimiter of the csv document, if no delimiter is specified <code>CSVFileDelimiter.SEMIKOLON</code> is used.
+	 * @return An instance of the class <code>CSVFile</code>.
+	 */
 	public CSVFile(String documentName, CSVFileDelimiter delimiter) {
 		super();
 		this.documentName = documentName;
+		if (delimiter == null) {
+			delimiter = CSVFileDelimiter.SEMIKOLON;
+		}
 		this.delimiter = delimiter;
 		this.rows = new ArrayList<CSVFileRow>();
 		this.sb = new StringBuilder();
 	}
 
+	/**
+	 * Add header row to the csv file.
+	 * 
+	 * @param headerRow
+	 *            The header row to be added.
+	 */
 	public void addHeaderRow(CSVFileRow headerRow) {
 		this.headerRow = headerRow;
 	}
 
+	/**
+	 * Add a row to the csv file.
+	 * 
+	 * @param aRow
+	 *            The row to be added.
+	 */
 	public void addRow(CSVFileRow aRow) {
 		this.rows.add(aRow);
 	}
 
+	/**
+	 * Returns the name of the csv file.
+	 * 
+	 * @return The name of the csv file.
+	 */
 	public String getDocumentName() {
 		return this.documentName;
 	}
 
+	/**
+	 * Returns the number of cells.
+	 * 
+	 * @return The number of cells.
+	 */
 	public int getNumberOfCells() {
 		return this.rows.get(0).getNumberOfCells();
 	}
 
+	/**
+	 * Returns the number of rows.
+	 * 
+	 * @return The number of rows
+	 */
 	public int getNumberOfRows() {
 		return this.rows.size();
 	}
 
+	/**
+	 * Returns all rows of the csv document.
+	 * 
+	 * @return All rows of the csv document.
+	 */
 	public List<CSVFileRow> getRows() {
 		return this.rows;
 	}
 
+	/**
+	 * Returns the csv file as String.
+	 * 
+	 * @return The csv file as String.
+	 */
 	public String getCSVFile() {
 		sb.setLength(0);
-		sb.append("Filename: ").append(getDocumentName()).append(SystemUtils.getLineSeperator());
 		if (headerRow != null) {
 			sb.append(headerRow.getRowNumber()).append(": ");
 			List<CSVFileCell> headerCells = headerRow.getCells();
@@ -85,7 +136,7 @@ public class CSVFile implements Serializable {
 				sb.append(aCell.getCell(delimiter));
 			}
 			sb.replace(sb.length() - 1, sb.length(), "").append(SystemUtils.getLineSeperator());
-			
+
 		}
 		for (CSVFileRow aRow : rows) {
 			sb.append(aRow.getRow(delimiter));
@@ -95,19 +146,7 @@ public class CSVFile implements Serializable {
 
 	@Override
 	public String toString() {
-		sb.setLength(0);
-		sb.append(getDocumentName()).append(SystemUtils.getLineSeperator());
-		if (headerRow != null) {
-			List<CSVFileCell> headerCells = headerRow.getCells();
-			for (CSVFileCell aCell : headerCells) {
-				sb.append(aCell.toString());
-			}
-			sb.replace(sb.length() - 1, sb.length(), "").append(SystemUtils.getLineSeperator());
-		}
-		for (CSVFileRow aRow : rows) {
-			sb.append(aRow.toString());
-		}
-		return sb.toString();
+		return getDocumentName() + ":" + SystemUtils.getLineSeperator() + getCSVFile();
 	}
 
 }

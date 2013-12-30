@@ -1,5 +1,5 @@
 /*
- * TODO Insert short description
+ * Test the 
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,20 @@ package de.ma.it.common.csv;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.ma.it.common.util.SystemUtils;
 
-import junit.framework.TestCase;
-
 /**
  * TODO Insert description !
  *
  * @author Martin Absmeier
  */
-public class CSVFileManagerTest {
+public class CSVFileManagerTest extends TestCase {
 	
 	private String fileName;
 	
@@ -40,9 +40,12 @@ public class CSVFileManagerTest {
 
 	@Before
 	protected void setUp() throws Exception {
-		String filePath =	SystemUtils.getUserDir() + SystemUtils.getFileSeperator() + "src" + SystemUtils.getFileSeperator() + 
-							"test" + SystemUtils.getFileSeperator() + "resources" + SystemUtils.getFileSeperator();
-		this.fileName = filePath + "postcodes-germany.csv";
+		StringBuilder sb = new StringBuilder(SystemUtils.getUserDir());
+		sb.append(SystemUtils.getFileSeperator()).append("src");
+		sb.append(SystemUtils.getFileSeperator()).append("test");
+		sb.append(SystemUtils.getFileSeperator()).append("resources");
+		sb.append(SystemUtils.getFileSeperator());
+		this.fileName = sb.toString() + "postcodes-germany.csv";
 	}
 
 	@After
@@ -54,8 +57,8 @@ public class CSVFileManagerTest {
 	@Test
 	public void testReadCSVFile() {
 		try {
-			cfManager = new CSVFileManager(CSVFileDelimiter.TABULATOR);
-			CSVFile csvFile = cfManager.readCSVFile(fileName, true);
+			cfManager = new CSVFileManager();
+			CSVFile csvFile = cfManager.readDocument(fileName, CSVFileDelimiter.TABULATOR, true, null);
 			System.out.println(csvFile.getCSVFile());
 		} catch (IOException ex) {
 			ex.printStackTrace(System.err);

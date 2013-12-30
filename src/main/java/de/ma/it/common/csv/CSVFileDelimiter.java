@@ -1,5 +1,5 @@
 /*
- * Delimiter of CSV file cells
+ * Delimiters of a csv file.
  * Copyright (C) 2013 Martin Absmeier, IT Consulting Services
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,16 +20,21 @@ package de.ma.it.common.csv;
 import java.io.Serializable;
 
 /**
- * Delimiter of CSV file cells
+ * Delimiters of a csv file.
  * 
  * @author Martin Absmeier
  */
 public enum CSVFileDelimiter implements Serializable {
 
+	/** Comma delimiter <code>,</code> */
 	COMMA(","),
+	/** Semikolon delimiter <code>;</code> */
 	SEMIKOLON(";"),
+	/** Tabulator delimiter <code>/t</code> */
 	TABULATOR("\t"),
+	/** Colon delimiter <code>:</code> */
 	COLON(":"),
+	/** Space delimiter <code> </code> */
 	SPACE(" ");
 
 	private String value;
@@ -38,6 +43,11 @@ public enum CSVFileDelimiter implements Serializable {
 		this.value = value;
 	}
 
+	/**
+	 * Return the delimiter as string.
+	 * 
+	 * @return The delimiter as string.
+	 */
 	public String getValue() {
 		return this.value;
 	}
