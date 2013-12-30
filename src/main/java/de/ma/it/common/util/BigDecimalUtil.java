@@ -26,55 +26,67 @@ import java.util.Locale;
 
 /**
  * Utility class to simplify the use of BigDecimals
- *
+ * 
  * @author Martin Absmeier
  */
 public class BigDecimalUtil {
-	
+
 	/**
+	 * Rounds the given <code>value</code>.
 	 * 
 	 * @param value
+	 *            The value to be rounded.
 	 * @param decimalPlaces
+	 *            The number of decimal places.
 	 * @param locale
+	 *            The locale.
 	 * @param roundCommercial
-	 * @return
+	 *            true if to rounded commercial, false otherwise
+	 * @return The formattet number as String
 	 */
-	public static String formatNumer(BigDecimal value, int decimalPlaces, Locale locale, boolean roundCommercial) {
+	public static String formatNubmer(BigDecimal value, int decimalPlaces, Locale locale, boolean roundCommercial) {
 		DecimalFormat df = getDecimalFormat(decimalPlaces, locale);
 		if (roundCommercial) {
 			return df.format(roundCommercial(value, decimalPlaces));
-		} 
+		}
 		return df.format(value);
 	}
-	
+
 	/**
-	 * Compares this value1 to value2.<br>
+	 * Checks if <code>value1</code> is equal to <code>value2</code>.
 	 * 
 	 * @param value1
-	 *            
+	 *            The first value to be checked.
 	 * @param value2
-	 * @return true if value1 equals value2, false otherwise
+	 *            The second value to be checked.
+	 * @return true if <code>value1</code> equals <code>value2</code>, false otherwise
 	 */
 	public static boolean isEqual(BigDecimal value1, BigDecimal value2) {
 		return value1.compareTo(value2) == 0;
 	}
-	
+
 	/**
+	 * Checks if <code>value1</code> is greater then <code>value2</code>.
 	 * 
 	 * @param value1
+	 *            The first value to be checked.
 	 * @param value2
-	 * @return
+	 *            The second value to be checked.
+	 * @return true if <code>value1</code> is greater then <code>value2</code>, false otherwise
 	 */
 	public static boolean isGreaterThen(BigDecimal value1, BigDecimal value2) {
 		int compareTo = value1.compareTo(value2);
 		return compareTo > 0;
 	}
-	
+
 	/**
+	 * Checks if <code>value1</code> is greater then or equal <code>value2</code>.
 	 * 
 	 * @param value1
+	 *            The first value to be checked.
 	 * @param value2
-	 * @return
+	 *            The second value to be checked.
+	 * @return true if <code>value1</code> is greater then or equal <code>value2</code>, false otherwise
 	 */
 	public static boolean isGreaterThenOrEqual(BigDecimal value1, BigDecimal value2) {
 		int compareTo = value1.compareTo(value2);
@@ -82,20 +94,26 @@ public class BigDecimalUtil {
 	}
 
 	/**
+	 * Checks if <code>value1</code> is less then <code>value2</code>.
 	 * 
 	 * @param value1
+	 *            The first value to be checked.
 	 * @param value2
-	 * @return
+	 *            The second value to be checked.
+	 * @return true if <code>value1</code> is less then <code>value2</code>, false otherwise
 	 */
 	public static boolean isLessThen(BigDecimal value1, BigDecimal value2) {
 		int compareTo = value1.compareTo(value2);
 		return compareTo < 0;
 	}
-	
+
 	/**
+	 * Checks if <code>value1</code> is less then or equal <code>value2</code>.
 	 * 
 	 * @param value1
+	 *            The first value to be checked.
 	 * @param value2
+	 *            The second value to be checked.
 	 * @return
 	 */
 	public static boolean isLessThenOrEqual(BigDecimal value1, BigDecimal value2) {
@@ -125,7 +143,7 @@ public class BigDecimalUtil {
 		if (value.equals(two)) {
 			return true;
 		}
-		// If value % 2 == 0		
+		// If value % 2 == 0
 		if (value.remainder(two).equals(BigInteger.ZERO)) {
 			return false;
 		}
@@ -149,12 +167,15 @@ public class BigDecimalUtil {
 	public static BigDecimal roundCommercial(BigDecimal value, int decimalPlaces) {
 		return value.round(getMathContext(decimalPlaces));
 	}
-	
+
 	/**
+	 * Calculates the square root of <code>value</code>.
 	 * 
 	 * @param value
+	 *            The value to be calculated.
 	 * @param decimalPlaces
-	 * @return
+	 *            The number of decimal places.
+	 * @return The square root of value with <code>decimalPlaces</code>.
 	 */
 	public static BigDecimal sqrt(BigDecimal value, int decimalPlaces) {
 		BigDecimal zero = BigDecimal.ZERO.setScale(decimalPlaces + 10);
@@ -182,7 +203,7 @@ public class BigDecimalUtil {
 
 		return mid.round(getMathContext(decimalPlaces));
 	}
-	
+
 	/* --------------------------------------------------------------------- */
 
 	private static DecimalFormat getDecimalFormat(int decimalPlaces, Locale locale) {
@@ -192,16 +213,16 @@ public class BigDecimalUtil {
 		for (int i = 0; i < decimalPlaces; i++) {
 			sb.append('0');
 		}
-		DecimalFormat df =  (DecimalFormat) DecimalFormat.getInstance(locale);
+		DecimalFormat df = (DecimalFormat) DecimalFormat.getInstance(locale);
 		df.applyPattern(sb.toString());
 
 		return df;
 	}
-	
+
 	private static MathContext getMathContext(int decimalPlaces) {
 		return new MathContext(decimalPlaces, RoundingMode.HALF_UP);
 	}
-	
+
 	/** Standard Constructor */
 	private BigDecimalUtil() {
 		super();

@@ -90,10 +90,9 @@ public class DateUtilTest {
 		}
 		
 		Date actual = DateUtil.createDate(2012, 8, 1);
-		int[] dIng = DateUtil.getDateIngredients(actual);
-		int actDate = dIng[0];
-		int actMonth = dIng[1] + 1;
-		int actYear = dIng[2];
+		int actDate = DateUtil.getDay(actual);
+		int actMonth = DateUtil.getMonth(actual);
+		int actYear = DateUtil.getYear(actual);
 
 		assertEquals(1, actDate);
 		assertEquals(8, actMonth);

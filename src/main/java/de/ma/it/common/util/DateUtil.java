@@ -133,16 +133,30 @@ public class DateUtil {
 	}
 
 	/**
-	 * Creates a calendar from given date.
+	 * Creates a calendar from given <code>date</code>.
 	 * 
 	 * @param date
-	 *            the given date
-	 * @return the created <code>Calendar</code>.
+	 *            The given date
+	 * @return The created <code>Calendar</code>.
 	 */
 	public static Calendar createCalendar(Date date) {
-		Calendar cal = Calendar.getInstance(Locale.GERMANY);
+		Calendar cal = Calendar.getInstance();
 		cal.setTimeInMillis(date.getTime());
+		return cal;
+	}
 
+	/**
+	 * Creates a calendar from given <code>date</code>.
+	 * 
+	 * @param date
+	 *            The given date
+	 * @param locale
+	 *            The locale.
+	 * @return The created <code>Calendar</code>.
+	 */
+	public static Calendar createCalendar(Date date, Locale locale) {
+		Calendar cal = Calendar.getInstance(locale);
+		cal.setTimeInMillis(date.getTime());
 		return cal;
 	}
 
@@ -203,27 +217,33 @@ public class DateUtil {
 	}
 
 	/**
-	 * Provides an array day, month and year.<br>
-	 * <code>
-	 * int[] ingredients = getDateIngredients(date);<br>
-	 * int day = res[0];<br>
-	 * int month = res[1];<br>
-	 * int year = res[2];<br>
-	 * <code>
 	 * 
 	 * @param date
-	 *            The given date.
-	 * @return The ingredients of date
+	 * @return
 	 */
-	public static int[] getDateIngredients(Date date) {
-		int[] ingredients = new int[3];
-
+	public static int getDay(Date date) {
 		Calendar cal = createCalendar(date);
-		ingredients[0] = cal.get(Calendar.DATE);
-		ingredients[1] = cal.get(Calendar.MONTH);
-		ingredients[2] = cal.get(Calendar.YEAR);
+		return cal.get(Calendar.DATE);
+	}
 
-		return ingredients;
+	/**
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static int getMonth(Date date) {
+		Calendar cal = createCalendar(date);
+		return (cal.get(Calendar.MONTH) + 1);
+	}
+
+	/**
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static int getYear(Date date) {
+		Calendar cal = createCalendar(date);
+		return cal.get(Calendar.YEAR);
 	}
 
 	/**
@@ -233,19 +253,15 @@ public class DateUtil {
 	 *            The first given date
 	 * @param date2
 	 *            The second given date
-	 * @return <code>true</code> if date1 is after date2; <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if date1 is after date2; <code>false</code> otherwise.
 	 */
 	public static boolean isAfter(Date date1, Date date2) {
-		int[] dIng1 = getDateIngredients(date1);
-		int day1 = dIng1[0];
-		int month1 = dIng1[1];
-		int year1 = dIng1[2];
-
-		int[] dIng2 = getDateIngredients(date2);
-		int day2 = dIng2[0];
-		int month2 = dIng2[1];
-		int year2 = dIng2[2];
+		int day1 = getDay(date1);
+		int month1 = getMonth(date1);
+		int year1 = getYear(date1);
+		int day2 = getDay(date2);
+		int month2 = getMonth(date2);
+		int year2 = getYear(date2);
 
 		if (year1 > year2) {
 			return true;
@@ -273,8 +289,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            the given date
-	 * @return <code>true</code> if the given date is afternoon;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the given date is afternoon; <code>false</code> otherwise.
 	 */
 	public static boolean isAfternoon(Date date) {
 		Calendar cal = createCalendar(date);
@@ -289,19 +304,15 @@ public class DateUtil {
 	 *            The first given date
 	 * @param date2
 	 *            The second given date
-	 * @return <code>true</code> if date1 is before date2; <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if date1 is before date2; <code>false</code> otherwise.
 	 */
 	public static boolean isBefore(Date date1, Date date2) {
-		int[] dIng1 = getDateIngredients(date1);
-		int day1 = dIng1[0];
-		int month1 = dIng1[1];
-		int year1 = dIng1[2];
-
-		int[] dIng2 = getDateIngredients(date2);
-		int day2 = dIng2[0];
-		int month2 = dIng2[1];
-		int year2 = dIng2[2];
+		int day1 = getDay(date1);
+		int month1 = getMonth(date1);
+		int year1 = getYear(date1);
+		int day2 = getDay(date2);
+		int month2 = getMonth(date2);
+		int year2 = getYear(date2);
 
 		if (year1 < year2) {
 			return true;
@@ -331,16 +342,12 @@ public class DateUtil {
 	 *            The first given date
 	 * @param date2
 	 *            The second given date
-	 * @return <code>true</code> if date1 is equal date2; <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if date1 is equal date2; <code>false</code> otherwise.
 	 */
 	public static boolean isEqual(Date date1, Date date2) {
-		int[] dIng1 = getDateIngredients(date1);
-		int[] dIng2 = getDateIngredients(date2);
-		if (dIng1[0] == dIng2[0] && dIng1[1] == dIng2[1] && dIng1[2] == dIng2[2]) {
-			return true;
-		}
-		return false;
+		Date d1 = deleteTimeSlice(date1);
+		Date d2 = deleteTimeSlice(date2);		
+		return d1.equals(d2);
 	}
 
 	/**
@@ -348,8 +355,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            the given date
-	 * @return <code>true</code> if the given date is forenoon;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the given date is forenoon; <code>false</code> otherwise.
 	 */
 	public static boolean isForenoon(Date date) {
 		Calendar cal = createCalendar(date);
@@ -358,46 +364,47 @@ public class DateUtil {
 	}
 
 	/**
-	 * Determines if the given date is a german holiday. Returns
-	 * <code>true</code> if the given date is a holiday.
+	 * Determines if the given date is a german holiday. Returns <code>true</code> if the given date is a holiday.
 	 * 
 	 * @param date
 	 *            the given date
-	 * @return <code>true</code> if the given date is holiday;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the given date is holiday; <code>false</code> otherwise.
 	 */
 	public static boolean isHoliday(Date date) {
-		int[] dIng = getDateIngredients(calculateEasterDay(createCalendar(date).get(Calendar.YEAR)));
-
-		Calendar easterSunday = new GregorianCalendar(dIng[2], dIng[1], dIng[0]);
-		Calendar easterMonday = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) + 1);
-		Calendar goodFriday = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) - 2);
-		Calendar rosenMonday = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) - 48);
-		Calendar ascensionDay = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) + 39);
-		Calendar whitSunday = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) + 49);
-		Calendar whitMonday = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) + 50);
-		Calendar corpusChristi = new GregorianCalendar(dIng[2], dIng[1], (dIng[0]) + 60);
-		Calendar reUnion = new GregorianCalendar(dIng[2], 9, 1);
-		Calendar christmasDay1 = new GregorianCalendar(dIng[2], 11, 24);
-		Calendar christmasDay2 = new GregorianCalendar(dIng[2], 11, 25);
-		Calendar christmasDay3 = new GregorianCalendar(dIng[2], 11, 26);
-		Calendar newYearsEve = new GregorianCalendar(dIng[2], 11, 31);
-		Calendar newYear = new GregorianCalendar(dIng[2], 0, 1);
+		Date easterDay = calculateEasterDay(getYear(date));
+		int day = getDay(easterDay);
+		int month = getMonth(easterDay);
+		int year = getYear(easterDay);
+		
+		Calendar easterSunday = new GregorianCalendar(year, month, day);
+		Calendar easterMonday = new GregorianCalendar(year, month, day + 1);
+		Calendar goodFriday = new GregorianCalendar(year, month, day - 2);
+		Calendar rosenMonday = new GregorianCalendar(year, month, day - 48);
+		Calendar ascensionDay = new GregorianCalendar(year, month, day + 39);
+		Calendar whitSunday = new GregorianCalendar(year, month, day + 49);
+		Calendar whitMonday = new GregorianCalendar(year, month, day + 50);
+		Calendar corpusChristi = new GregorianCalendar(year, month, day + 60);
+		Calendar reUnion = new GregorianCalendar(year, 9, 1);
+		Calendar christmasDay1 = new GregorianCalendar(year, 11, 24);
+		Calendar christmasDay2 = new GregorianCalendar(year, 11, 25);
+		Calendar christmasDay3 = new GregorianCalendar(year, 11, 26);
+		Calendar newYearsEve = new GregorianCalendar(year, 11, 31);
+		Calendar newYear = new GregorianCalendar(year, 0, 1);
 
 		Calendar cal = createCalendar(date);
-		if (	easterSunday.equals(cal) || 
-				easterMonday.equals(cal) || 
-				goodFriday.equals(cal) || 
-				rosenMonday.equals(cal) || 
-				ascensionDay.equals(cal) || 
-				whitSunday.equals(cal) || 
-				whitMonday.equals(cal) || 
+		if (	easterSunday.equals(cal)  || 
+				easterMonday.equals(cal)  || 
+				goodFriday.equals(cal)    || 
+				rosenMonday.equals(cal)	  || 
+				ascensionDay.equals(cal)  || 
+				whitSunday.equals(cal)    || 
+				whitMonday.equals(cal)    || 
 				corpusChristi.equals(cal) || 
-				reUnion.equals(cal) || 
+				reUnion.equals(cal)       || 
 				christmasDay1.equals(cal) || 
 				christmasDay2.equals(cal) || 
 				christmasDay3.equals(cal) || 
-				newYearsEve.equals(cal) || 
+				newYearsEve.equals(cal)   || 
 				newYear.equals(cal)) 
 		{
 			return true;
@@ -407,23 +414,19 @@ public class DateUtil {
 	}
 
 	/**
-	 * Determines if the given year is a leap year. Returns <code>true</code> if
-	 * the given year is a leap year. To specify BC year numbers,
-	 * <code>1 - year number</code> must be given. For example, year BC 4 is
-	 * specified as -3.
+	 * Determines if the given year is a leap year. Returns <code>true</code> if the given year is a leap year. To specify BC year numbers,
+	 * <code>1 - year number</code> must be given. For example, year BC 4 is specified as -3.
 	 * 
 	 * @param year
 	 *            the given year.
-	 * @return <code>true</code> if the given year is a leap year;
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the given year is a leap year; <code>false</code> otherwise.
 	 */
 	public static boolean isLeapYear(int year) {
 		return new GregorianCalendar().isLeapYear(year);
 	}
 
 	/**
-	 * Analyzes the <code>date</code> string and tries to generate a
-	 * <code>java.util.Date</code>.
+	 * Analyzes the <code>date</code> string and tries to generate a <code>java.util.Date</code>.
 	 * 
 	 * @param date
 	 *            the given date as string
