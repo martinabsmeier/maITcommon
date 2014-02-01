@@ -48,22 +48,22 @@ public class ExcelFileFilter implements FileFilter {
 	public boolean accept(File aFile) {
 		String fileName = aFile.getName().toLowerCase();
 		if (fileNameRegEx == null) {
-			if (	fileName.endsWith(ExcelFileExtension.XLS.getExtension())  || 
-					fileName.endsWith(ExcelFileExtension.XLSB.getExtension()) || 
-					fileName.endsWith(ExcelFileExtension.XLSM.getExtension()) || 
-					fileName.endsWith(ExcelFileExtension.XLSX.getExtension()) || 
-					fileName.endsWith(ExcelFileExtension.XLTX.getExtension())) 
+			if (	fileName.endsWith(ExcelFileExtension.XLS.getExtension()) 
+					|| fileName.endsWith(ExcelFileExtension.XLSB.getExtension())
+					|| fileName.endsWith(ExcelFileExtension.XLSM.getExtension())
+					|| fileName.endsWith(ExcelFileExtension.XLSX.getExtension())
+					|| fileName.endsWith(ExcelFileExtension.XLTX.getExtension())) 
 			{
 				return true;
 			}
 		} else {
 			Matcher matcher = fileNameRegEx.matcher(fileName);
-			if (	matcher.matches() && 
-					(	fileName.endsWith(ExcelFileExtension.XLS.getExtension())  || 
-						fileName.endsWith(ExcelFileExtension.XLSB.getExtension()) || 
-						fileName.endsWith(ExcelFileExtension.XLSM.getExtension()) || 
-						fileName.endsWith(ExcelFileExtension.XLSX.getExtension()) || 
-						fileName.endsWith(ExcelFileExtension.XLTX.getExtension()))) 
+			if (	matcher.matches()
+					&& (	fileName.endsWith(ExcelFileExtension.XLS.getExtension())
+							|| fileName.endsWith(ExcelFileExtension.XLSB.getExtension())
+							|| fileName.endsWith(ExcelFileExtension.XLSM.getExtension())
+							|| fileName.endsWith(ExcelFileExtension.XLSX.getExtension()) 
+							|| fileName.endsWith(ExcelFileExtension.XLTX.getExtension()))) 
 			{
 				return true;
 			}
