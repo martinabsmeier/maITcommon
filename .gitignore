@@ -1,10 +1,8 @@
-# Directories
-bin/
-target/
-
 # Files
 *.class
 *.jar
 *.war
 *.ear
-*~ 
+
+# Folders
+/target
