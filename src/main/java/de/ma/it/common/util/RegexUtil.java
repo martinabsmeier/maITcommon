@@ -28,12 +28,10 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
 	/** Regex to check SWIFT / BIC codes. */
-	public static final Pattern SWIFT_BIC = Pattern
-			.compile("^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$");
+	public static final Pattern SWIFT_BIC = Pattern.compile("^([a-zA-Z]){4}([a-zA-Z]){2}([0-9a-zA-Z]){2}([0-9a-zA-Z]{3})?$");
 
 	/** Regex to check E-Mail adresses. */
-	public static final Pattern EMAIL = Pattern
-			.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	public static final Pattern EMAIL = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 
 	/** Regex to check alphanumeric */
 	public static final Pattern ALPHANUMERIC = Pattern.compile("^[a-zA-Z0-9]*$");
