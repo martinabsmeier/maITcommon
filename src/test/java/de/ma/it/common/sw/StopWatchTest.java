@@ -64,21 +64,34 @@ public class StopWatchTest extends TestCase {
 	@Test
 	public void testStopWatch() {
 		try {
-			sw.start("Test Task 1");
+			sw.start("Task-1");
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace(System.err);
 			}
 			sw.stop();
-			sw.start("Test Task 2");
+			sw.start("Task-2");
 			try {
-				Thread.sleep(250);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				e.printStackTrace(System.err);
 			}
 			sw.stop();
-			
+			sw.start("Task-3");
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				e.printStackTrace(System.err);
+			}
+			sw.stop();
+			sw.start("Task-4");
+			try {
+				Thread.sleep(400);
+			} catch (InterruptedException e) {
+				e.printStackTrace(System.err);
+			}
+			sw.stop();
 			System.out.println(sw.prettyPrint());
 		} catch (IllegalStateException ex) {
 			Assert.fail(ex.getMessage());
