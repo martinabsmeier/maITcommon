@@ -21,148 +21,141 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.ma.it.common.util.SystemUtils;
-
 /**
  * Simple implementation of a stop watch.
- *
+ * 
  * <p>
- * Note that "StopWatch" is not designed to be thread-safe and does not use
- * synchronization.
+ * Note that "StopWatch" is not designed to be thread-safe and does not use synchronization.
+ * </p>
  * 
  * @author Martin Absmeier
  */
 public class StopWatch {
-	
-	/** Name of the currently running task. */
-	private String currentTaskName;
 
-	/** Start time of currently running task. */
-	private long currentStartTime;
-	
-	/** Is the stop watch currently running? */
-	private boolean isRunning;
-
-	/** List of all executed tasks. */
-	private List<StopWatchTask> taskList;	
-	
-	private StringBuilder sb;
-
-	private static final String NL = SystemUtils.getLineSeperator();
-	
-	private static final String TAB = "\t";
-	
-	/**
-	 * Standard Constructor
-	 */
-	public StopWatch() {
-		super();
-		this.taskList = new ArrayList<StopWatchTask>();
-		this.sb = new StringBuilder();
+	private enum State {
+		NOT_RUNNING, RUNNING, STOPPED;
 	}
 
-	/**
-	 * Returns the total time in milliseconds for all executed task.
-	 *
-	 * @return total time in milliseconds
-	 */
-	public long getTotalTimeInMillis() {
-		long totalTimeInMillis = 0;
+	private class Task {
 
-		for (StopWatchTask aTask : this.taskList) {
-			totalTimeInMillis = totalTimeInMillis + aTask.getTimeInMillis();
+		private long startTime;
+
+		private State state;
+
+		private long stopTime;
+
+		private String taskName;
+
+		protected Task(String taskName) {
+			this.taskName = taskName;
+			this.state = State.NOT_RUNNING;
 		}
 
+		protected String getTaskName() {
+			return taskName;
+		}
+
+		protected long getTimeInMillis() {
+			return stopTime - startTime;
+		}
+
+		protected double getTimeInSeconds() {
+			return Double.valueOf(getTimeInMillis()) / 1000D;
+		}
+
+		protected boolean isRunning() {
+			return State.RUNNING == state;
+		}
+
+		protected void start() {
+			this.state = State.RUNNING;
+			this.startTime = System.currentTimeMillis();
+		}
+
+		protected void stop() {
+			this.state = State.STOPPED;
+			this.stopTime = System.currentTimeMillis();
+		}
+	}
+
+	private String stopWatchName;
+
+	private List<Task> tasks = new ArrayList<>();
+
+	private Task currentTask = null;
+
+	public StopWatch() {
+		this("");
+	}
+
+	public StopWatch(String stopWatchName) {
+		super();
+		this.stopWatchName = stopWatchName;
+	}
+
+	public long getTotalTimeInMillis() {
+		long totalTimeInMillis = 0;
+		for (Task aTask : tasks) {
+			totalTimeInMillis += aTask.getTimeInMillis();
+		}
 		return totalTimeInMillis;
 	}
 
-	/**
-	 * Returns the total time in seconds for all executed task.
-	 *
-	 * @return total time in seconds
-	 */
 	public double getTotalTimeInSeconds() {
-		return Double.valueOf(getTotalTimeInMillis()) / 1000.0D;
-	}
-	
-	/**
-	 * Returns if the StopWatch is running.
-	 *
-	 * @return true if the StopWatch is running, false otherwise
-	 */
-	public boolean isRunning() {
-		return this.isRunning;
-	}
-
-	/**
-	 * Start the StopWatch with a named task.
-	 *
-	 * @param taskName
-	 *            the name of the task.
-	 */
-	public void start(String taskName) throws IllegalStateException {
-		if (isRunning()) {
-			throw new IllegalStateException("Can't start StopWatch: it's already running!");
-		}
-		this.isRunning = true;
-		this.currentTaskName = taskName;
-		this.currentStartTime = System.currentTimeMillis();
-	}
-	
-	/**
-	 * Stops the current running task.
-	 */
-	public void stop() throws IllegalStateException {
-		if (!isRunning()) {
-			throw new IllegalStateException("Can't stop StopWatch: it's not running!");
-		}
-		this.taskList.add(new StopWatchTask(this.currentTaskName, this.currentStartTime, System.currentTimeMillis()));
-		this.isRunning = false;
-		this.currentTaskName = null;
-		this.currentStartTime = 0;
+		return Double.valueOf(getTotalTimeInMillis()) / 1000D;
 	}
 
 	public String prettyPrint() {
 		NumberFormat nf = NumberFormat.getNumberInstance();
 		nf.setMinimumIntegerDigits(7);
 		nf.setGroupingUsed(false);
+
 		NumberFormat pf = NumberFormat.getPercentInstance();
 		pf.setMinimumIntegerDigits(3);
-		pf.setGroupingUsed(false);
-		
-		sb.setLength(0);
-		sb.append("StopWatch totalRunningTime = ").append(getTotalTimeInMillis()).append(" ms").append(NL);
-		sb.append(TAB).append("     ms     %  TaskName").append(NL);
-		sb.append(TAB).append("---------------").append(missingSeparatorChars()).append(NL);
-		
-		for (StopWatchTask aTask : taskList) {
-			sb.append(TAB);
+		pf.setGroupingUsed(true);
+
+		String nl = System.getProperty("line.separator");
+		StringBuilder sb = new StringBuilder("StopWatch:");
+		if (stopWatchName != null && stopWatchName.trim().length() > 0) {
+			sb.append(" ").append(stopWatchName);
+		}
+		sb.append(" totalRunningTime = ").append(getTotalTimeInMillis()).append(" ms").append(nl);
+		sb.append("     ms     %  TaskName").append(nl);
+		sb.append("-------------------------------------------------------------------------------").append(nl);
+
+		for (Task aTask : tasks) {
+			if (aTask.isRunning()) {
+				throw new IllegalStateException("Task " + aTask.getTaskName()
+						+ " is running, please stop it before calling pretty print.");
+			}
 			sb.append(nf.format(aTask.getTimeInMillis())).append("  ");
 			sb.append(pf.format(aTask.getTimeInSeconds() / getTotalTimeInSeconds())).append("  ");
-			sb.append(aTask.getTaskName()).append(NL);
+			sb.append(aTask.getTaskName()).append(nl);
 		}
 
 		return sb.toString();
 	}
 
-	private int getLengthOfLongestTaskName() {
-		int lengthOfLongestTaskName = 0;
-		for (StopWatchTask aTask : taskList) {
-			int taskNameLength = aTask.getTaskName().length();
-			if (taskNameLength > lengthOfLongestTaskName) {
-				lengthOfLongestTaskName = taskNameLength; 
-			}
-		}
-		return lengthOfLongestTaskName;
+	public void start() {
+		start("");
 	}
-	
-	private String missingSeparatorChars() {
-		StringBuilder sb = new StringBuilder();
-		int taskNameLength = getLengthOfLongestTaskName();
-		for (int count = 0; count < taskNameLength; count++) {
-			sb.append("-");
+
+	public void start(String taskName) throws IllegalStateException {
+		if (currentTask == null || !currentTask.isRunning()) {
+			currentTask = new Task(taskName);
+			currentTask.start();
+		} else {
+			throw new IllegalStateException("Can't start StopWatch: it's already running!");
 		}
-		return sb.toString();
 	}
-	
+
+	public void stop() throws IllegalStateException {
+		if (currentTask == null || !currentTask.isRunning()) {
+			throw new IllegalStateException("Can't start StopWatch: it's not running!");
+		} else {
+			currentTask.stop();
+			tasks.add(currentTask);
+			currentTask = null;
+		}
+	}
 }
