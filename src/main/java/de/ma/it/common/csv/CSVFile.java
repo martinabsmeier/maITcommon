@@ -47,12 +47,14 @@ public class CSVFile implements Serializable {
 	private StringBuilder sb;
 
 	/**
-	 * Creates a new csv file with given <code>documentName</code> and <code>delimiter</code>.
+	 * Creates a new csv file with given <code>documentName</code> and
+	 * <code>delimiter</code>.
 	 * 
 	 * @param documentName
 	 *            The name of the csv document.
 	 * @param delimiter
-	 *            The delimiter of the csv document, if no delimiter is specified <code>CSVFileDelimiter.SEMIKOLON</code> is used.
+	 *            The delimiter of the csv document, if no delimiter is
+	 *            specified <code>CSVFileDelimiter.SEMIKOLON</code> is used.
 	 * @return An instance of the class <code>CSVFile</code>.
 	 */
 	public CSVFile(String documentName, CSVFileDelimiter delimiter) {
@@ -135,7 +137,8 @@ public class CSVFile implements Serializable {
 			for (CSVFileCell aCell : headerCells) {
 				sb.append(aCell.getCell(delimiter));
 			}
-			sb.replace(sb.length() - 1, sb.length(), "").append(SystemUtils.getLineSeperator());
+			sb.replace(sb.length() - 1, sb.length(), "").append(
+					SystemUtils.getLineSeperator());
 
 		}
 		for (CSVFileRow aRow : rows) {
@@ -146,7 +149,8 @@ public class CSVFile implements Serializable {
 
 	@Override
 	public String toString() {
-		return getDocumentName() + ":" + SystemUtils.getLineSeperator() + getCSVFile();
+		return getDocumentName() + ":" + SystemUtils.getLineSeperator()
+				+ getCSVFile();
 	}
 
 }
