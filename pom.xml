@@ -7,9 +7,14 @@
 	<groupId>de.ma.it</groupId>
 	<artifactId>maITCommon</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1</version>
+	<version>0.1.0-SNAPSHOT</version>
 
-	<name>maITCommon</name>
+	<developers>
+		<developer>
+			<name>Martin Absmeier</name>
+			<email>martin.absmeier@gmail.com</email>
+		</developer>
+	</developers>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,20 +33,6 @@
 		<!-- dependency -->
 		<compiler.plugin.version>3.1</compiler.plugin.version>
 	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler.plugin.version}</version>
-				<configuration>
-					<source>${source.version}</source>
-					<target>${target.version}</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 	<dependencies>
 		<dependency>
@@ -72,4 +63,35 @@
 		</dependency>
 	</dependencies>
 
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${compiler.plugin.version}</version>
+				<configuration>
+					<source>${source.version}</source>
+					<target>${target.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+ 
+ 	<distributionManagement>
+		<repository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>nexus-releases</id>
+			<name>releases</name>
+			<url>http://localhost:8081/nexus/content/repositories/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<uniqueVersion>true</uniqueVersion>
+			<id>nexus-snapshots</id>
+			<name>snapshots</name>
+			<url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+			<layout>default</layout>
+		</snapshotRepository>
+	</distributionManagement>
+ 
 </project>
