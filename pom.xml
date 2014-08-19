@@ -9,12 +9,36 @@
 	<packaging>jar</packaging>
 	<version>0.1.0-SNAPSHOT</version>
 
+	<name>maITCommon</name>
+	<description>
+		Add description here!
+	</description>
+
+	<organization>
+		<name>maIT Consulting Services</name>
+	</organization>
+
 	<developers>
 		<developer>
+			<id>ma</id>
 			<name>Martin Absmeier</name>
-			<email>martin.absmeier@gmail.com</email>
+			<email>martin.absmeier@gmx.de</email>
 		</developer>
 	</developers>
+
+	<contributors>
+		<contributor>
+			<name>Martin Absmeier</name>
+			<email>martin.absmeier@gmx.de</email>
+		</contributor>
+	</contributors>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License</name>
+			<url>gpl-3.0.txt</url>
+		</license>
+	</licenses>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
