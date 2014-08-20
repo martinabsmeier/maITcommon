@@ -51,7 +51,7 @@ public class CharsetUtils {
 		/** Sixteen-bit UCS Transformation Format, byte order identified by an byte-order mark */
 		UTF_16("UTF-16");
 
-		private String charsetName;
+		private final String charsetName;
 
 		private StandardCharsets(String charsetName) {
 			this.charsetName = charsetName;

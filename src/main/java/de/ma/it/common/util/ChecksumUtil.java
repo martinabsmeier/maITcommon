@@ -68,7 +68,7 @@ public class ChecksumUtil {
 		}
 
 		Long res = sum % 11L;
-		if (res.equals(Long.valueOf(10L))) {
+		if (res.equals(10L)) {
 			return "X";
 		}
 

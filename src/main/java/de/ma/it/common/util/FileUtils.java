@@ -46,9 +46,9 @@ public class FileUtils {
 		}
 		
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-		ObjectOutputStream oOut = new ObjectOutputStream(bOut);
-		oOut.writeObject(serMap);
-		oOut.close();
+        try (ObjectOutputStream oOut = new ObjectOutputStream(bOut)) {
+            oOut.writeObject(serMap);
+        }
 
 		return bOut.toByteArray();
 	}
@@ -62,9 +62,9 @@ public class FileUtils {
 	 */
 	public static byte[] serializeFile(File file) throws IOException {		
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-		ObjectOutputStream oOut = new ObjectOutputStream(bOut);
-		oOut.writeObject(file);
-		oOut.close();		
+        try (ObjectOutputStream oOut = new ObjectOutputStream(bOut)) {
+            oOut.writeObject(file);
+        }		
 		return bOut.toByteArray();
 	}
 	
