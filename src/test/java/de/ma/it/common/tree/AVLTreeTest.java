@@ -17,6 +17,7 @@
  */
 package de.ma.it.common.tree;
 
+import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,15 +28,17 @@ import org.junit.Test;
  * 
  * @author Martin Absmeier
  */
-public class AVLTreeTest {
+public class AVLTreeTest extends TestCase {
 
 	@Before
-	protected void setUp() throws Exception {
+    @Override
+	public void setUp() throws Exception {
 		// nothing to do
 	}
 	
-	@After
-	protected void tearDown() throws Exception {
+    @After
+    @Override
+	public void tearDown() throws Exception {
 		// nothing to do
 	}
 	
@@ -48,7 +51,7 @@ public class AVLTreeTest {
 		Assert.assertEquals(array.length, tree.size());
 
 		for (int i = 0; i < array.length; ++i) {
-			Assert.assertEquals(array[i], value(tree.getNotSmaller(new Integer(array[i]))));
+			Assert.assertEquals(array[i], value(tree.getNotSmaller(array[i])));
 		}
 
 		checkOrder(tree);
@@ -78,9 +81,9 @@ public class AVLTreeTest {
 		
 		for (int i = 0; i < arrays.length; ++i) {
 			AVLTree<Integer> tree = buildTree(arrays[i][0]);
-			Assert.assertTrue(!tree.delete(new Integer(-2000)));
+			Assert.assertTrue(!tree.delete(-2000));
 			for (int j = 0; j < arrays[i][1].length; ++j) {
-				Assert.assertTrue(tree.delete(tree.getNotSmaller(new Integer(arrays[i][1][j])).getElement()));
+				Assert.assertTrue(tree.delete(tree.getNotSmaller(arrays[i][1][j]).getElement()));
 				Assert.assertEquals(arrays[i][0].length - j - 1, tree.size());
 			}
 		}
@@ -117,12 +120,12 @@ public class AVLTreeTest {
 		
 		AVLTree<Integer> tree = buildTree(array);
 
-		Assert.assertNull(tree.getNotLarger(new Integer(array[0] - 1)));
-		Assert.assertNull(tree.getNotSmaller(new Integer(array[array.length - 1] + 1)));
+		Assert.assertNull(tree.getNotLarger(array[0] - 1));
+		Assert.assertNull(tree.getNotSmaller(array[array.length - 1] + 1));
 
 		for (int i = 0; i < array.length; ++i) {
-			Assert.assertEquals(array[i], value(tree.getNotSmaller(new Integer(array[i] - 1))));
-			Assert.assertEquals(array[i], value(tree.getNotLarger(new Integer(array[i] + 1))));
+			Assert.assertEquals(array[i], value(tree.getNotSmaller(array[i] - 1)));
+			Assert.assertEquals(array[i], value(tree.getNotLarger(array[i] + 1)));
 		}
 
 		checkOrder(tree);
@@ -135,24 +138,24 @@ public class AVLTreeTest {
 		AVLTree<Integer> tree = buildTree(array);
 		Assert.assertEquals(array.length, tree.size());
 
-		AVLNode<Integer> node = tree.getNotSmaller(new Integer(3));
+		AVLNode<Integer> node = tree.getNotSmaller(3);
 		Assert.assertEquals(3, value(node));
 		Assert.assertEquals(1, value(node.getPrevious()));
 		Assert.assertEquals(3, value(node.getNext()));
 		Assert.assertEquals(4, value(node.getNext().getNext()));
 
-		node = tree.getNotLarger(new Integer(2));
+		node = tree.getNotLarger(2);
 		Assert.assertEquals(1, value(node));
 		Assert.assertEquals(1, value(node.getPrevious()));
 		Assert.assertEquals(3, value(node.getNext()));
 		Assert.assertNull(node.getPrevious().getPrevious());
 
-		AVLNode<Integer> otherNode = tree.getNotSmaller(new Integer(1));
+		AVLNode<Integer> otherNode = tree.getNotSmaller(1);
 		Assert.assertTrue(node != otherNode);
 		Assert.assertEquals(1, value(otherNode));
 		Assert.assertNull(otherNode.getPrevious());
 
-		node = tree.getNotLarger(new Integer(10));
+		node = tree.getNotLarger(10);
 		Assert.assertEquals(7, value(node));
 		Assert.assertNull(node.getNext());
 		node = node.getPrevious();
@@ -173,14 +176,14 @@ public class AVLTreeTest {
 		AVLTree<Integer> tree = new AVLTree<Integer>();
 
 		for (int i = 0; i < array.length; ++i) {
-			tree.insert(new Integer(array[i]));
+			tree.insert(array[i]);
 		}
 
 		return tree;
 	}
 
 	private int value(AVLNode<Integer> node) {
-		return node.getElement().intValue();
+		return node.getElement();
 	}
 
 	private void checkOrder(AVLTree<Integer> tree) {

@@ -40,7 +40,7 @@ public class CSVFileManagerTest extends TestCase {
 
 	@Before
     @Override
-	protected void setUp() throws Exception {
+	public void setUp() throws Exception {
 		StringBuilder sb = new StringBuilder(SystemUtils.getUserDir());
 		sb.append(SystemUtils.getFileSeperator()).append("src");
 		sb.append(SystemUtils.getFileSeperator()).append("test");
@@ -51,7 +51,7 @@ public class CSVFileManagerTest extends TestCase {
 
 	@After
     @Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		this.fileName = null;
 		this.cfManager = null;
 	}	
